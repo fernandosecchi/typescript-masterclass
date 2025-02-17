@@ -1,27 +1,30 @@
-// Totality is a concept in TypeScript that refers to functions or operations that handle all possible inputs of a given type without failing at runtime. A function is said to be total if it accounts for all possible cases, ensuring that no unexpected errors occur due to unhandled inputs.
+type Circle = {
+  kind: "circle";
+  radius: number;
+};
 
-//! What Makes a Function Total?
-// A function is considered total if it:
-// Handles all possible cases for its input type.
-// Does not throw unexpected runtime errors.
-// Ensures correctness through exhaustive type checking.
+type Square = {
+  kind: "square";
+  side: number;
+};
 
-function getLength(value: string | number): number {
-  if (typeof value === "string") {
-    return value.length;
+type Rectangle = {
+  kind: "rectangle";
+  length: number;
+  breadth: number;
+};
+
+// Add a new Reactangle share to the union and see that exhaustive check will throw a proper Typescript error.
+type Shape = Circle | Square;
+
+function getArea(shape: Shape): number {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.side ** 2;
+    default:
+      const _exhaustiveCheck: never = shape; // ❌ TypeScript error if a case is missing
+      throw new Error("Unhandled shape type");
   }
-  // ❌ This function is partial because it does not handle numbers properly.
 }
-console.log(getLength("hello")); // ✅ 5
-
-function getLengthSafe(value: string | number): number {
-  if (typeof value === "string") {
-    return value.length;
-  } else {
-    return value.toString().length;
-  }
-  // ✅ This function is total because it covers all cases.
-}
-
-console.log(getLengthSafe("hello")); // ✅ 5
-console.log(getLengthSafe(42)); // ✅ 2 (length of "42")
