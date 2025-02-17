@@ -1,36 +1,67 @@
-//! Create a Box of different type of content
-interface Box<T> {
-  content: T;
-  size: number;
+//! Generic Class with Methods
+class Box<T> {
+  private items: T[] = [];
+
+  addItem(item: T): void {
+    this.items.push(item);
+  }
+
+  getAllItems(): T[] {
+    return this.items;
+  }
 }
 
-const stringBox: Box<string> = { content: "Hello, TypeScript", size: 10 };
-const numberBox: Box<number> = { content: 42, size: 5 };
+const numberStorage = new Box<number>();
+numberStorage.addItem(10);
+numberStorage.addItem(20);
+console.log(numberStorage.getAllItems()); // ✅ [10, 20]
 
-console.log(stringBox.content.toUpperCase()); // ✅ "HELLO, TYPESCRIPT"
-console.log(numberBox.content.toString()); // ✅ "42"
+const stringStorage = new Box<string>();
+stringStorage.addItem("Alice");
+stringStorage.addItem("Bob");
+console.log(stringStorage.getAllItems()); // ✅ ["Alice", "Bob"]
 
-//! Generic Constraints
-interface Lengthwise {
-  length: number;
+//! Adding Constraints to Generic Classes
+interface Identifiable {
+  id: number;
 }
 
-function logLength<T extends Lengthwise>(arg: T): void {
-  console.log("Length is:", arg.length);
+class Repository<T extends Identifiable> {
+  private records: T[] = [];
+
+  addRecord(record: T): void {
+    this.records.push(record);
+  }
+
+  findRecordById(id: number): T | undefined {
+    return this.records.find((record) => record.id === id);
+  }
 }
 
-logLength({ length: 10, value: "Hello" }); // ✅ Works because `length` exists
-logLength("TypeScript Generics"); // ✅ Strings have `length`
-// logLength(42); // ❌ Error: Number does not have `length`
-
-//! Using Multiple Type Parameters
-interface Pair<K, V> {
-  key: K;
-  value: V;
+class User {
+  constructor(public id: number, public name: string) {}
 }
 
-const personAge: Pair<string, number> = { key: "Alice", value: 30 };
-const productPrice: Pair<number, number> = { key: 101, value: 99.99 };
+const userRepo = new Repository<User>();
+userRepo.addRecord(new User(1, "Alice"));
+userRepo.addRecord(new User(2, "Bob"));
+console.log(userRepo.findRecordById(1)); // ✅ { id: 1, name: "Alice" }
 
-console.log(personAge.key, personAge.value); // ✅ "Alice", 30
-console.log(productPrice.key, productPrice.value); // ✅ 101, 99.99
+//!  Generic Classes with Multiple Type Parameters
+class Pair<K, V> {
+  constructor(public key: K, public value: V) {}
+
+  getKey(): K {
+    return this.key;
+  }
+
+  getValue(): V {
+    return this.value;
+  }
+}
+
+const personAge = new Pair("Alice", 30);
+console.log(personAge.getKey(), personAge.getValue()); // ✅ "Alice", 30
+
+const productPrice = new Pair(101, 99.99);
+console.log(productPrice.getKey(), productPrice.getValue()); // ✅ 101, 99.99
