@@ -1,60 +1,50 @@
-// TypeScript is a Structural Type System. A structural type
-// system means that when comparing types, TypeScript only
-// takes into account the members on the type.
+//! What Are Type Guards?
 
-// This is in contrast to nominal type systems, where you
-// could create two types but could not assign them to each
-// other.
+// Type Guards are techniques used in TypeScript to ensure that a value conforms to a specific type before performing operations on it. They help with type safety in conditional logic by refining types.
 
-// For example, these two interfaces are completely
-// transferrable in a structural type system:
-
-interface Ball {
-  diameter: number;
-}
-interface Sphere {
-  diameter: number;
+// Example of a type guard. We use theme everywhere in JavaScript
+function isString(value: any) {
+  if (typeof value === "string") {
+    console.log("Value is a string");
+  } else {
+    console.log("Value is not a string");
+  }
 }
 
-let ball: Ball = { diameter: 10 };
-let sphere: Sphere = { diameter: 20 };
+isString("hello");
 
-sphere = ball;
-ball = sphere;
-
-// If we add in a type which structurally contains all of
-// the members of Ball and Sphere, then it also can be
-// set to be a ball or sphere.
-
-interface Tube {
-  diameter: number;
-  length: number;
+//! Example 1: Using typeof for Type Guards
+function processValue(value: string | number) {
+  if (typeof value === "string") {
+    console.log("It's a string:", value.toUpperCase());
+  } else {
+    console.log("It's a number:", value.toFixed(2));
+  }
 }
 
-let tube: Tube = { diameter: 12, length: 3 };
+processValue("hello"); // "HELLO"
+processValue(42); // "42.00"
 
-tube = ball;
-ball = tube;
+//! Example 2: Using instanceof for Type Guards
+class Car {
+  drive() {
+    console.log("Driving a car");
+  }
+}
 
-//! Using an intersectional type, with a unique
-// constraint in the form of a property called __brand (this
-// is convention) which makes it impossible to assign a
-// normal string to a ValidatedInputString.
+class Bike {
+  ride() {
+    console.log("Riding a bike");
+  }
+}
 
-type ValidatedInputString = string & { __brand: "Validated Input" };
+function useVehicle(vehicle: Car | Bike) {
+  if (vehicle instanceof Car) {
+    vehicle.drive();
+  } else {
+    vehicle.ride();
+  }
+}
 
-// We will use a function to transform a string to
-// a ValidatedInputString - but the point worth noting
-// is that we're just _telling_ TypeScript that it's true.
-
-const validateUserInput = (input: string) => {
-  const simpleValidatedInput = input.trim();
-  return simpleValidatedInput as ValidatedInputString; // 'as' forceful assertion
-};
-
-// Now we can create functions which will only accept
-// our new nominal type, and not the general string type.
-
-const printName = (name: ValidatedInputString) => {
-  console.log(name);
-};
+useVehicle(new Car()); // "Driving a car"
+useVehicle(new Bike()); // "Riding a bike"
