@@ -43,7 +43,7 @@ type User = {
 //! Excess Property Checks are Skipped in Assignment
 const user = { name: "Alice", age: 25, isAdmin: true };
 //! Will still error out if the type is defined on assignment
-//* EXAMPLE: const user = { name: "Alice", age: 25, isAdmin: true }; THIS WILL ERROR OUT
+//* EXAMPLE: const user = { name: "Alice", age: 25, isAdmin: true }; THIS WILL ERROR OUT - SAME AS THE EXAMPLE SHARED IN PREVIOUS LECTURE
 
 // Assigning an object with an extra property to User
 const newUser: User = user; // No error, even though isAdmin is not in User
@@ -76,3 +76,28 @@ let handleAnimal = (animal: Animal) => {
 
 let handleDog: (dog: Dog) => void = handleAnimal;
 handleDog({ name: "Buddy", breed: "Labrador" }); // Works fine
+
+//! Rest Parameters
+
+// Rest parameters are assumed to all be optional, this means
+// TypeScript will not have a way to enforce the number of
+// parameters available when using rest parameters
+
+function logNumbers(...numbers: number[]) {
+  console.log(numbers);
+}
+
+logNumbers(); // ✅ Works: No arguments passed
+logNumbers(1, 2, 3); // ✅ Works: Multiple arguments passed
+
+// A function which returns a void function, can accept a
+// function which takes any other type.
+
+const getPI = () => 3.14;
+
+function runFunction(func: () => void) {
+  func();
+}
+
+runFunction(getPI);
+// The function actually returns a value, but TypeScript treats it as void, leading to confusion.
