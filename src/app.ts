@@ -28,3 +28,6 @@ console.log(greet(employee));
 // Works fine since Employee is a subtype of Person
 console.log(greet(student));
 // Works fine since Student is a subtype of Person
+
+//! THIS will not work because of access property checks - Covered in next lecture
+console.log(greet({ name: "Alice", age: 30, employeeId: 101, department: "Engineering" }));
