@@ -70,9 +70,6 @@ let handleAnimal = (animal: Animal) => {
   console.log(`Handling ${animal.name}`);
 };
 
-//! Invoking Handle Animal With A Dog Will Not Work
-handleAnimal({ name: "Buddy", breed: "Labrador" });
-
 // You can re-declare the parameter type to be a subtype of
 // the declaration. TypeScript accepts a stricter type of Animal
 // a type which has additional properties.
