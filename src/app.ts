@@ -1,11 +1,12 @@
-function methodLogger(originalMethod: any, _context: any) {
-  function replacementMethod(this: any, ...args: any[]) {
-    console.log("Invocation Started");
-    const result = originalMethod.call(this, ...args);
-    console.log("Invocation ended");
-    return result;
-  }
-  return replacementMethod;
+function methodLogger(logPrefix: string) {
+  return function (originalMethod: any, _context: any) {
+    return function (this: any, ...args: any[]) {
+      console.log(`${logPrefix}: Invocation Started`);
+      const result = originalMethod.call(this, ...args);
+      console.log(`${logPrefix}: Invocation ended`);
+      return result;
+    };
+  };
 }
 
 function bound(_originalMethod: any, context: any) {
@@ -24,7 +25,7 @@ class Person {
   constructor(public name: string) {}
 
   @bound
-  @methodLogger
+  @methodLogger("LOG")
   greet(greeting: string) {
     console.dir(this);
     console.log(` ${greeting}, ${this.name}`);
