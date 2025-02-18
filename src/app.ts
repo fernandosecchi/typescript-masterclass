@@ -1,18 +1,25 @@
-function methodLogger(originalMethod: any, context: any) {
-  console.log(originalMethod);
-  console.log(context);
+function methodLogger(originalMethod: any, _context: any) {
+  console.log("Decorator Invoked");
+  //! The replacement function replaces the original method and when the original method is invoken then the replacement method is invoked instead of the original greet method.
+  function replacementMethod(this: any, ...args: any[]) {
+    console.log(args);
+    console.log(this);
+    console.log("Invocation Started");
+    const result = originalMethod.call(this, ...args);
+    console.log("Invocation ended");
+    return result;
+  }
+  return replacementMethod;
 }
 
-function classDecorator(originalClass: any) {
-  console.log(originalClass);
-}
-
-@classDecorator
 class Person {
   constructor(public name: string) {}
 
   @methodLogger
-  greet() {
-    console.log(`Hello, my name is ${this.name}.`);
+  greet(greeting: string) {
+    console.log(` ${greeting}, ${this.name}`);
   }
 }
+
+let user: Person = new Person("John");
+user.greet("Hello");
