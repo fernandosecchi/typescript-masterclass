@@ -9,7 +9,7 @@ function addGreetMethod<T extends new (...args: any[]) => Greetable>(
     constructor(...args: any[]) {
       super(...args);
       this.greet = (greeting: string) => {
-        console.log(` ${greeting}, ${this.name}! Have a gret day`);
+        console.log(` ${greeting}, ${this.name}! Have a great day`);
       };
     }
   };
