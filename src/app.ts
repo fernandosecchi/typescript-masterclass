@@ -1,31 +1,31 @@
-//! GENRIC CONSTRUCTOR TYPE TO BE USED FIRST IF NEED TO EXTEND ANY CLASS
-// { new (...args: any[]): {} }
-
-function addGreetMethod<T extends new (...args: any[]) => Greetable>(
-  baseClass: T,
-  _context: ClassDecoratorContext<T>
-) {
-  return class extends baseClass {
-    constructor(...args: any[]) {
-      super(...args);
-      this.greet = (greeting: string) => {
-        console.log(` ${greeting}, ${this.name}! Have a great day`);
-      };
-    }
-  };
+function getter(getter: any, context: ClassGetterDecoratorContext) {
+  console.log(getter);
+  console.log(context);
 }
 
-//! Interface needs to be addded in the end to solve the proble of TypeScript now able to identify the greet method
-interface Greetable {
+function setter(setter: any, context: ClassSetterDecoratorContext) {
+  console.log(setter);
+  console.log(context);
+}
+
+class Person {
   name: string;
-  greet?: (greeting: string) => void;
-}
 
-//! We will get an error without proper Generics in place
-@addGreetMethod
-class Author implements Greetable {
-  constructor(public name: string) {}
-}
+  constructor(name: string, private _age: number = 10) {
+    this.name = name;
+  }
 
-const author = new Author("Mark");
-console.log(author);
+  greet() {
+    console.log(`Hello, my name is ${this.name}.`);
+  }
+
+  @getter
+  public get age() {
+    return this._age;
+  }
+
+  @setter
+  public set age(value) {
+    this._age = value;
+  }
+}
