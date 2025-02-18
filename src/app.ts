@@ -1,32 +1,31 @@
-//! You could use Value extends [] for liberal typing
-function addDefaultPost<This, Value extends Post[]>(
-  _target: undefined,
-  _context: ClassFieldDecoratorContext<This, Value>
+//! GENRIC CONSTRUCTOR TYPE TO BE USED FIRST IF NEED TO EXTEND ANY CLASS
+// { new (...args: any[]): {} }
+
+function addGreetMethod<T extends new (...args: any[]) => Greetable>(
+  baseClass: T,
+  _context: ClassDecoratorContext<T>
 ) {
-  return function (initialValue: Value) {
-    initialValue.push({
-      title: "Defualt Title",
-      content: "Default Content",
-    });
-    return initialValue;
+  return class extends baseClass {
+    constructor(...args: any[]) {
+      super(...args);
+      this.greet = (greeting: string) => {
+        console.log(` ${greeting}, ${this.name}! Have a gret day`);
+      };
+    }
   };
 }
 
-type Post = {
-  title: string;
-  content: string;
-};
+//! Interface needs to be addded in the end to solve the proble of TypeScript now able to identify the greet method
+interface Greetable {
+  name: string;
+  greet?: (greeting: string) => void;
+}
 
-class Author {
-  @addDefaultPost
-  public posts: Post[] = [];
-
+//! We will get an error without proper Generics in place
+@addGreetMethod
+class Author implements Greetable {
   constructor(public name: string) {}
-
-  greet(greeting: string) {
-    console.log(` ${greeting}, ${this.name}`);
-  }
 }
 
 const author = new Author("Mark");
-console.log(author.posts);
+console.log(author);
