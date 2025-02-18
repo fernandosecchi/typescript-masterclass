@@ -5,6 +5,7 @@ function methodLogger(originalMethod: any, _context: any) {
     console.log(args);
     console.log(this);
     console.log("Invocation Started");
+    // The call() method of Function instances calls this function with a given this value and arguments provided individually.
     const result = originalMethod.call(this, ...args);
     console.log("Invocation ended");
     return result;
