@@ -1,11 +1,21 @@
-function getter(getter: any, context: ClassGetterDecoratorContext) {
-  console.log(getter);
-  console.log(context);
+function getter<This, Value>(getter: Function, _context: ClassGetterDecoratorContext<This, Value>) {
+  return function (this: This) {
+    const result = getter.call(this);
+    if (result > 18) {
+      console.log("Person is an adult");
+    }
+    return result;
+  };
 }
 
-function setter(setter: any, context: ClassSetterDecoratorContext) {
-  console.log(setter);
-  console.log(context);
+function setter<This, Value, Return>(
+  setter: (args: Value) => Return,
+  _context: ClassSetterDecoratorContext<This, Value>
+) {
+  return function (this: This, arg: any) {
+    console.log(`Setting the age to ${arg}`);
+    return setter.call(this, arg);
+  };
 }
 
 class Person {
@@ -29,3 +39,7 @@ class Person {
     this._age = value;
   }
 }
+
+const person = new Person("Mark");
+person.age = 20;
+console.log(person.age);
