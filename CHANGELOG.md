@@ -2,6 +2,57 @@
 
 All notable changes to this course will be documented in this file from **18 July, 2024** onwards.
 
+## [1.4.0] - 2025-02-28
+
+> [!IMPORTANT]
+> TypeScript Version - 5.7.3
+> Update Date: 28 February, 2025
+
+### Added
+
+The following sections and lectures have been added or updated in this update of the course.
+
+### Added
+
+1. **Stage 3 Decorators**:
+
+   - Introduction to Decorators
+   - Introduction to Decorators
+   - Creating First Decorator
+   - When are Decorators Invoked
+   - Add a Replacement Function
+   - Adding an Initializer to greet()
+   - Creating a Separate @bound Decorator
+   - Introduction To Decorator Factories
+   - Strictly Typing Decorators
+   - Understanding Field Decorators
+   - Class Decorators
+   - Decorators For Accessors & Mutators
+   - Enhancing Accessor Decorators
+
+2. **Advanced TypeScript Concepts**:
+
+   - Advanced TypeScript Concepts
+   - Sub Types And Super Types
+   - Type Soundness
+   - Nominal vs Structural Type System
+   - Understanding Typeguards
+   - Type Widening and Type Narrowing
+   - Totality
+   - Discriminated Unions and Exhaustiveness Checking
+
+3. **Creating Types From Types**:
+   - Creating Types From Types
+   - Generic Interfaces
+   - keyof Operator
+   - typeof Operator
+   - Indexed Access Types
+   - Mapped Types
+   - Conditional Types
+   - Template Literal Types
+
+---
+
 ## [1.3.0] - 2024-09-05
 
 > [!IMPORTANT]
@@ -33,10 +84,6 @@ The following sections and lectures have been added or updated in this update of
    - Using @Types Packages: Manage external type declarations seamlessly.
 
 ---
-
-# Changelog - TypeScript Masterclass Course - From Beginner To Advanced
-
-All notable changes to this course will be documented in this file from **18 July, 2024** onwards.
 
 ## [1.2.0] - 2024-08-05
 
